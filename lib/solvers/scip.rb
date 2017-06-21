@@ -6,9 +6,9 @@ class Scip < Solver
   def solve
     settings = settings_file
     if options[:parallel]
-      exec("touch /tmp/fscip_params")
+      exec("touch ./tmp/fscip_params")
       exec("rm #{@outfile}")
-      command = "fscip /tmp/fscip_params #{@filename} -fsol #{@outfile} -s #{settings}"
+      command = "fscip ./tmp/fscip_params #{@filename} -fsol #{@outfile} -s #{settings}"
     else
       exec("rm #{@outfile}")
       command = "#{executable} -f #{@filename} -l #{@outfile} -s #{settings}"
@@ -35,7 +35,7 @@ class Scip < Solver
   end
 
   def get_settings_filename
-    "/tmp/rulp-#{Random.rand(0..1000)}.set"
+    "./tmp/rulp-#{Random.rand(0..1000)}.set"
   end
 
   def store_results(variables)

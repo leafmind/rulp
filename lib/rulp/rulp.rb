@@ -151,7 +151,7 @@ module Rulp
     end
 
     def get_output_filename
-      "/tmp/rulp-#{Random.rand(0..1000)}.lp"
+      "./tmp/rulp-#{Random.rand(0..1000)}.lp"
     end
 
     def output(filename=choose_file)

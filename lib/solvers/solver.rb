@@ -10,7 +10,7 @@ class Solver
   end
 
   def get_output_filename
-    "/tmp/rulp-#{Random.rand(0..1000)}.sol"
+    "./tmp/rulp-#{Random.rand(0..1000)}.sol"
   end
 
   def store_results(variables)

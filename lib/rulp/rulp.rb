@@ -57,12 +57,12 @@ module Rulp
   end
 
   def self.Max(objective_expression)
-    Rulp.log(Logger::INFO, "Creating maximization problem")
+    # Rulp.log(Logger::INFO, "Creating maximization problem")
     Problem.new(Rulp::MAX, objective_expression)
   end
 
   def self.Min(objective_expression)
-    Rulp.log(Logger::INFO, "Creating minimization problem")
+    # Rulp.log(Logger::INFO, "Creating minimization problem")
     Problem.new(Rulp::MIN, objective_expression)
   end
 
@@ -75,7 +75,7 @@ module Rulp
   def self.exec(command)
     Open3.popen2e("#{command} #{Rulp.print_solver_outputs ? "" : "> /dev/null 2>&1"}") do | inp, out, thr|
       out.each.map do |line|
-        Rulp.log(Logger::DEBUG, line)
+        # Rulp.log(Logger::DEBUG, line)
         line
       end
     end.join
@@ -99,13 +99,13 @@ module Rulp
     end
 
     def [](*constraints)
-      Rulp.log(Logger::INFO, "Got constraints")
+      #Rulp.log(Logger::INFO, "Got constraints")
       constraints = constraints.flatten.select{|x| x.kind_of?(Constraint)}
-      Rulp.log(Logger::INFO, "Flattened constraints")
+      #Rulp.log(Logger::INFO, "Flattened constraints")
       @constraints.concat(constraints)
-      Rulp.log(Logger::INFO, "Joint constraints")
+      #Rulp.log(Logger::INFO, "Joint constraints")
       @variables.merge(constraints.flat_map(&:variables).uniq)
-      Rulp.log(Logger::INFO, "Extracted variables")
+      #Rulp.log(Logger::INFO, "Extracted variables")
       self
     end
 
@@ -163,19 +163,19 @@ module Rulp
       filename = get_output_filename
       solver = SOLVERS[type].new(filename, options)
 
-      Rulp.log(Logger::INFO, "Writing problem")
+      # Rulp.log(Logger::INFO, "Writing problem")
       IO.write(filename, self)
 
       Rulp.exec("open #{filename}") if options[:open_definition]
 
-      Rulp.log(Logger::INFO, "Solving problem")
+      # Rulp.log(Logger::INFO, "Solving problem")
       self.trace, time = _profile{ solver.solve }
 
       Rulp.exec("open #{solver.outfile}") if options[:open_solution]
 
-      Rulp.log(Logger::DEBUG, "Solver took #{time}")
+      # Rulp.log(Logger::DEBUG, "Solver took #{time}")
 
-      Rulp.log(Logger::INFO, "Parsing result")
+      # Rulp.log(Logger::INFO, "Parsing result")
 
       unless solver.outfile
         raise "No output file detected. Solver failed"
@@ -199,7 +199,7 @@ module Rulp
 
       self.result = @objective_expression.evaluate
 
-      Rulp.log(Logger::DEBUG, "Objective: #{result}\n#{@variables.map{|v|[v.name, "=", v.value].join(' ') if v.value}.compact.join("\n")}")
+      # Rulp.log(Logger::DEBUG, "Objective: #{result}\n#{@variables.map{|v|[v.name, "=", v.value].join(' ') if v.value}.compact.join("\n")}")
       return self.result
     end
 
@@ -208,13 +208,13 @@ module Rulp
     end
 
     def write(output)
-      output.puts "#{@objective}"
-      output.puts " obj: #{@objective_expression}"
-      output.puts "Subject to"
-      output.puts "#{constraints}"
-      output.puts "Bounds"
-      output.puts "#{bounds}#{integers}#{bits}"
-      output.puts "End"
+      #output.puts "#{@objective}"
+      #output.puts " obj: #{@objective_expression}"
+      #output.puts "Subject to"
+      #output.puts "#{constraints}"
+      #output.puts "Bounds"
+      #output.puts "#{bounds}#{integers}#{bits}"
+      #output.puts "End"
     end
 
     def to_s

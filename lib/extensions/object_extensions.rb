@@ -15,11 +15,11 @@ class << Object
   def const_missing(value)
     method_name = "#{value}".split("::")[-1] rescue ""
     if (("A".."Z").include?(method_name[0]))
-      if(method_name.end_with?("b"))
+      if(method_name.end_with?("_b"))
         return BV.definition(method_name[0..(method_name[-2] == "_" ? -3 : -2)])
-      elsif(method_name.end_with?("i"))
+      elsif(method_name.end_with?("_i"))
         return IV.definition(method_name[0..(method_name[-2] == "_" ? -3 : -2)])
-      elsif(method_name.end_with?("f"))
+      elsif(method_name.end_with?("_f"))
         return LV.definition(method_name[0..(method_name[-2] == "_" ? -3 : -2)])
       end
     end

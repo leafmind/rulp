@@ -1,5 +1,5 @@
 class Array
-  def sum
+  def old_sum
     self.inject(:+)
   end
 end
